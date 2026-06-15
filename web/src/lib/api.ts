@@ -35,13 +35,11 @@ async function request<T>(path: string, init?: RequestInit): Promise<T> {
 
 export const api = {
   authConfig: () =>
-    request<{ enabled: boolean; emailRequired: boolean; turnstileSiteKey: string | null }>(
-      '/api/auth/config',
-    ),
-  login: (email: string, password: string, turnstileToken?: string) =>
+    request<{ enabled: boolean; turnstileSiteKey: string | null }>('/api/auth/config'),
+  login: (password: string, turnstileToken?: string) =>
     request<{ email: string }>('/api/auth/login', {
       method: 'POST',
-      body: JSON.stringify({ email, password, turnstileToken }),
+      body: JSON.stringify({ password, turnstileToken }),
     }),
   logout: () => request<{ ok: true }>('/api/auth/logout', { method: 'POST' }),
   me: () => request<{ email: string }>('/api/auth/me'),

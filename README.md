@@ -20,12 +20,12 @@ are no values to edit. When it finishes:
 1. Open your new Worker → **Settings → Variables and Secrets** and add:
    - `HOST_PASSWORD` (secret) — the password you'll type to host (choose anything).
    - `AUTH_SECRET` (secret) — a long random string (any 40+ random characters).
-   - `HOST_EMAIL` (variable, **recommended**) — your email. When set, this *is*
-     the host identity: login is password-only and nobody can sign in as a
-     different email. Leave it unset to instead pick an email at the login form.
+   - `HOST_EMAIL` (variable, *optional*) — sets the host's identity (the owner of
+     your quizzes). Login is **always password-only**; if you don't set this, a
+     built-in default identity is used.
 2. Visit `https://<your-worker>.workers.dev/host/login` and sign in with your
-   `HOST_PASSWORD` (plus an email if you didn't set `HOST_EMAIL`). Your dashboard
-   is auto-populated with the sample cybersecurity quizzes, owned by you. Done.
+   `HOST_PASSWORD`. Your dashboard is auto-populated with the sample
+   cybersecurity quizzes, owned by you. Done.
 
 Players just open the root URL and join with the PIN — no account needed.
 
@@ -185,12 +185,12 @@ npx wrangler deploy --var HOST_EMAIL:you@example.com   # or set it in the dashbo
 
 Generate a strong `AUTH_SECRET`, e.g. `node -e "console.log(crypto.randomUUID()+crypto.randomUUID())"`.
 
-Hosts then go to `/host/login` and enter the `HOST_PASSWORD`. If `HOST_EMAIL` is
-set, that email is the host identity (password-only login). If it isn't, the
-host also types an email, which becomes their identity. The Worker issues a
-signed, HttpOnly session cookie (`qf_session`, 7-day expiry); `authenticate()`
-accepts it as an alternative to the Access JWT. No `HOST_PASSWORD`/`AUTH_SECRET`
-set → the login endpoint returns 503 and the host side stays closed.
+Hosts then go to `/host/login` and enter the `HOST_PASSWORD` — login is
+password-only (no email field). The host identity is `HOST_EMAIL` if set, else a
+built-in default. The Worker issues a signed, HttpOnly session cookie
+(`qf_session`, 7-day expiry); `authenticate()` accepts it as an alternative to
+the Access JWT. No `HOST_PASSWORD`/`AUTH_SECRET` set → the login endpoint
+returns 503 and the host side stays closed.
 
 > This is a single shared password gating who can host — simpler than Access
 > but with no per-user identity verification. Prefer Cloudflare Access for

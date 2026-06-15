@@ -26,9 +26,7 @@ const TURNSTILE_SCRIPT = 'cf-turnstile-script';
 
 // Built-in host sign-in: shared host password (+ optional email and bot check).
 export function HostLogin() {
-  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [emailRequired, setEmailRequired] = useState(true);
   const [siteKey, setSiteKey] = useState<string | null>(null);
   const [turnstileToken, setTurnstileToken] = useState('');
   const [error, setError] = useState<string | null>(null);
@@ -45,10 +43,7 @@ export function HostLogin() {
       .catch(() => {});
     api
       .authConfig()
-      .then((cfg) => {
-        setEmailRequired(cfg.emailRequired);
-        setSiteKey(cfg.turnstileSiteKey);
-      })
+      .then((cfg) => setSiteKey(cfg.turnstileSiteKey))
       .catch(() => {});
   }, [navigate]);
 
@@ -88,7 +83,7 @@ export function HostLogin() {
     }
     setBusy(true);
     try {
-      await api.login(emailRequired ? email : '', password, turnstileToken || undefined);
+      await api.login(password, turnstileToken || undefined);
       navigate('/host', { replace: true });
     } catch (err) {
       if (err instanceof ApiClientError) {
@@ -117,16 +112,6 @@ export function HostLogin() {
           <div className="muted">Host sign-in</div>
         </div>
         <form className="card stack" onSubmit={submit}>
-          {emailRequired && (
-            <input
-              type="email"
-              placeholder="Your email (used as your host name)"
-              aria-label="Email"
-              autoComplete="username"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-          )}
           <input
             type="password"
             placeholder="Host password"

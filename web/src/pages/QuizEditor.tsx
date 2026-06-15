@@ -198,23 +198,24 @@ export function QuizEditor() {
 
       {questions.map((q, qi) => (
         <div className="q-card" key={qi}>
-          <div className="row spread" style={{ marginBottom: 10 }}>
+          <div className="row spread q-head" style={{ marginBottom: 10 }}>
             <span className="pill">
-              {qi + 1}. {q.type === 'true_false' ? 'True / False' : 'Multiple choice'}
+              <span className="q-num">{qi + 1}</span>
+              {q.type === 'true_false' ? 'True / False' : 'Multiple choice'}
             </span>
             <div className="row" style={{ gap: 6 }}>
-              <button className="btn ghost" onClick={() => move(qi, -1)} aria-label="Move up" disabled={qi === 0}>
+              <button className="btn ghost icon-btn" onClick={() => move(qi, -1)} aria-label="Move up" disabled={qi === 0}>
                 ↑
               </button>
               <button
-                className="btn ghost"
+                className="btn ghost icon-btn"
                 onClick={() => move(qi, 1)}
                 aria-label="Move down"
                 disabled={qi === questions.length - 1}
               >
                 ↓
               </button>
-              <button className="btn ghost" onClick={() => removeQuestion(qi)} aria-label="Delete question">
+              <button className="btn ghost icon-btn" onClick={() => removeQuestion(qi)} aria-label="Delete question">
                 🗑
               </button>
             </div>
@@ -238,18 +239,11 @@ export function QuizEditor() {
               const st = answerStyle(oi);
               return (
                 <div className="option-row" key={oi}>
-                  <span
-                    style={{
-                      background: st.color,
-                      borderRadius: 8,
-                      padding: 8,
-                      display: 'inline-flex',
-                    }}
-                    title={st.label}
-                  >
-                    <ShapeIcon shape={st.shape} size={20} />
+                  <span className="opt-shape" style={{ background: st.color }} title={st.label}>
+                    <ShapeIcon shape={st.shape} size={18} />
                   </span>
                   <input
+                    className="opt-input"
                     type="text"
                     placeholder={`Option ${oi + 1}`}
                     value={o.text}
@@ -257,18 +251,22 @@ export function QuizEditor() {
                     disabled={q.type === 'true_false'}
                     onChange={(e) => setOptionText(qi, oi, e.target.value)}
                   />
-                  <label className="correct-toggle">
-                    <input
-                      type="radio"
-                      name={`correct-${qi}`}
-                      checked={o.isCorrect}
-                      onChange={() => setCorrect(qi, oi)}
-                      style={{ width: 'auto' }}
-                    />
-                    Correct
-                  </label>
+                  <button
+                    type="button"
+                    className={`opt-correct ${o.isCorrect ? 'on' : ''}`}
+                    onClick={() => setCorrect(qi, oi)}
+                    aria-label={o.isCorrect ? 'Correct answer' : 'Mark as correct'}
+                    title="Mark as correct"
+                  >
+                    ✓
+                  </button>
                   {q.type === 'multiple_choice' && q.options.length > 2 && (
-                    <button className="btn ghost" onClick={() => removeOption(qi, oi)} aria-label="Remove option">
+                    <button
+                      type="button"
+                      className="opt-del"
+                      onClick={() => removeOption(qi, oi)}
+                      aria-label="Remove option"
+                    >
                       ✕
                     </button>
                   )}

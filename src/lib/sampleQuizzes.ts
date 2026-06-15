@@ -238,6 +238,256 @@ export const SAMPLE_QUIZZES: SampleQuiz[] = [
       tf('Isolating an infected host from the network is part of the containment phase.', true),
     ],
   },
+  {
+    title: 'Passwords & Authentication',
+    description:
+      'MFA, password managers, phishing-resistant keys, SSO, and credential-stuffing.',
+    questions: [
+      mc('What does multi-factor authentication (MFA) add beyond a password?', 20, [
+        o('A second, different factor (something you have or are)', true),
+        o('A longer version of the same password'),
+        o('A backup copy of your password'),
+        o('A faster way to log in'),
+      ]),
+      mc('A password manager primarily helps you:', 20, [
+        o('Generate and store a unique strong password for every site', true),
+        o('Memorize one password to reuse everywhere'),
+        o('Share passwords openly with your team'),
+        o('Disable the need for passwords entirely'),
+      ]),
+      mc('Which MFA method is the most phishing-resistant?', 20, [
+        o('A hardware security key (FIDO2 / WebAuthn)', true),
+        o('One-time codes sent over SMS'),
+        o('Codes sent by email'),
+        o('Security questions'),
+      ]),
+      mc('Single Sign-On (SSO) lets users:', 20, [
+        o('Authenticate once to access multiple applications', true),
+        o('Use the same password on unrelated websites'),
+        o('Skip authentication entirely'),
+        o('Encrypt their hard drive'),
+      ]),
+      tf('Reusing the same password across sites enables credential-stuffing attacks.', true),
+    ],
+  },
+  {
+    title: 'Cloud Security Basics',
+    description:
+      'Shared responsibility, IAM least privilege, storage misconfiguration, and protecting credentials.',
+    questions: [
+      mc('In the cloud shared responsibility model, the provider is responsible for:', 25, [
+        o('Security OF the cloud (physical infrastructure, hypervisor)', true),
+        o('Everything, including your data and configuration'),
+        o('Your application code and access controls'),
+        o('Nothing — the customer owns all security'),
+      ]),
+      mc('A very common cause of cloud data breaches is:', 20, [
+        o('Storage buckets misconfigured to be publicly accessible', true),
+        o('Too much encryption'),
+        o('Using multi-factor authentication'),
+        o('Rotating credentials too often'),
+      ]),
+      mc('For your cloud root / top-level admin account you should:', 20, [
+        o('Enable MFA and avoid using it for day-to-day work', true),
+        o('Share it with the whole team for convenience'),
+        o('Disable logging on it'),
+        o('Use it for all routine tasks'),
+      ]),
+      mc('Hard-coding cloud API keys in source code is dangerous because:', 25, [
+        o('Anyone with repo access — or a leak — gains your credentials', true),
+        o('It makes the code run slower'),
+        o('It uses more storage'),
+        o('It is required by most frameworks'),
+      ]),
+      tf('Applying least privilege to IAM roles limits the blast radius if credentials are stolen.', true),
+    ],
+  },
+  {
+    title: 'Email Security',
+    description: 'SPF/DKIM/DMARC, business email compromise, malicious attachments, and link checks.',
+    questions: [
+      mc('SPF, DKIM, and DMARC are used to:', 25, [
+        o('Authenticate email senders and reduce spoofing', true),
+        o('Encrypt the contents of every email'),
+        o('Speed up email delivery'),
+        o('Compress attachments'),
+      ]),
+      mc('Business Email Compromise (BEC) typically involves:', 25, [
+        o('Impersonating an executive or vendor to request fraudulent payments', true),
+        o('Crashing the mail server with traffic'),
+        o('Encrypting the mailbox for ransom'),
+        o('Guessing the email password by brute force'),
+      ]),
+      mc('A safe way to handle an unexpected invoice attachment is to:', 20, [
+        o('Verify with the sender through a known, separate channel before opening', true),
+        o('Open it immediately to see what it is'),
+        o('Forward it to colleagues to check'),
+        o('Reply asking the sender to confirm in the same thread'),
+      ]),
+      mc('A link whose hover URL differs from its visible text is:', 20, [
+        o('A common sign of a phishing link', true),
+        o('Always completely safe'),
+        o('A normal part of every email'),
+        o('A way to speed up the page'),
+      ]),
+      tf('DMARC can tell receiving servers to quarantine or reject unauthenticated mail from your domain.', true),
+    ],
+  },
+  {
+    title: 'Data Protection & Privacy',
+    description: 'Encryption at rest, PII, the 3-2-1 backup rule, data classification, and regulations.',
+    questions: [
+      mc('"Encryption at rest" protects data that is:', 20, [
+        o('Stored on disk or in databases', true),
+        o('Moving across the network'),
+        o('Only displayed on screen'),
+        o('Printed on paper'),
+      ]),
+      mc('PII stands for:', 15, [
+        o('Personally Identifiable Information', true),
+        o('Public Internet Index'),
+        o('Private Internal Infrastructure'),
+        o('Protected Intranet Interface'),
+      ]),
+      mc('The 3-2-1 backup rule recommends:', 25, [
+        o('3 copies of data, on 2 types of media, with 1 kept off-site', true),
+        o('3 passwords, 2 admins, 1 server'),
+        o('3 firewalls, 2 routers, 1 switch'),
+        o('3 backups taken once a year'),
+      ]),
+      mc('Data classification helps an organization:', 20, [
+        o('Apply the right level of protection based on sensitivity', true),
+        o('Delete all of its data safely'),
+        o('Make every file public'),
+        o('Avoid keeping any records'),
+      ]),
+      tf('Privacy regulations such as GDPR can require organizations to protect and limit the use of personal data.', true),
+    ],
+  },
+  {
+    title: 'Endpoint & Device Security',
+    description: 'Patching, full-disk encryption, EDR, removable media risks, and screen locks.',
+    questions: [
+      mc('Keeping software patched primarily:', 20, [
+        o('Closes known vulnerabilities that attackers exploit', true),
+        o('Makes the device run hotter'),
+        o('Deletes your personal files'),
+        o('Disables the firewall'),
+      ]),
+      mc('Full-disk encryption (e.g. BitLocker or FileVault) protects data mainly when:', 20, [
+        o('A device is lost or stolen', true),
+        o('You are actively typing your password'),
+        o('The device is connected to Wi-Fi'),
+        o('The screen is turned on'),
+      ]),
+      mc('EDR (Endpoint Detection and Response) provides:', 25, [
+        o('Detection, investigation, and response for threats on endpoints', true),
+        o('Faster internet on laptops'),
+        o('Automatic data backups only'),
+        o('A replacement for all network security'),
+      ]),
+      mc('Plugging an unknown USB drive into your computer can:', 20, [
+        o('Introduce malware or a malicious payload', true),
+        o('Always speed up the computer'),
+        o('Automatically encrypt your files safely'),
+        o('Never pose any risk'),
+      ]),
+      tf('Auto-locking the screen after inactivity reduces the risk of unauthorized access.', true),
+    ],
+  },
+  {
+    title: 'Network Attacks & Defenses',
+    description: 'DDoS, segmentation, ARP spoofing, intrusion detection, and default-deny rules.',
+    questions: [
+      mc('A DDoS (Distributed Denial of Service) attack aims to:', 20, [
+        o('Overwhelm a service with traffic so it becomes unavailable', true),
+        o('Steal passwords from a database'),
+        o('Encrypt files for ransom'),
+        o('Patch a vulnerability'),
+      ]),
+      mc('Network segmentation improves security by:', 25, [
+        o('Limiting an attacker’s lateral movement between systems', true),
+        o('Making the network faster for everyone'),
+        o('Removing the need for passwords'),
+        o('Encrypting all stored files'),
+      ]),
+      mc('ARP spoofing on a local network is typically used to:', 25, [
+        o('Redirect traffic through the attacker (a man-in-the-middle)', true),
+        o('Speed up DNS lookups'),
+        o('Back up network configuration'),
+        o('Assign more bandwidth to users'),
+      ]),
+      mc('An Intrusion Detection System (IDS) primarily:', 20, [
+        o('Monitors traffic and alerts on suspicious activity', true),
+        o('Encrypts all network traffic'),
+        o('Replaces the need for a firewall'),
+        o('Stores user passwords'),
+      ]),
+      tf('A default-deny firewall policy is generally more secure than default-allow.', true),
+    ],
+  },
+  {
+    title: 'Secure Coding Practices',
+    description: 'Input validation, secrets management, dependency hygiene, error handling, and least privilege.',
+    questions: [
+      mc('The safest way to handle untrusted input is to:', 25, [
+        o('Validate and sanitize it against an expected format', true),
+        o('Trust it if it comes from a logged-in user'),
+        o('Store it directly in the database as-is'),
+        o('Reflect it straight back to the page'),
+      ]),
+      mc('Secrets such as API keys and passwords should be:', 25, [
+        o('Stored in a secrets manager or environment, never in source code', true),
+        o('Committed to the repository for convenience'),
+        o('Emailed to the whole team'),
+        o('Hard-coded so they cannot be lost'),
+      ]),
+      mc('Keeping third-party dependencies up to date helps prevent:', 20, [
+        o('Exploitation of known vulnerable libraries', true),
+        o('Your code from compiling'),
+        o('Users from logging in'),
+        o('The need for any testing'),
+      ]),
+      mc('Showing detailed internal error messages to end users can:', 25, [
+        o('Leak sensitive system details that help attackers', true),
+        o('Improve the security of the system'),
+        o('Encrypt the application automatically'),
+        o('Speed up the database'),
+      ]),
+      tf('Running application components with the minimum privileges they need reduces risk.', true),
+    ],
+  },
+  {
+    title: 'Security Frameworks & Compliance',
+    description: 'NIST CSF, defense in depth, PCI DSS, ISO 27001, and least privilege.',
+    questions: [
+      mc('The five core functions of the NIST Cybersecurity Framework are:', 25, [
+        o('Identify, Protect, Detect, Respond, Recover', true),
+        o('Plan, Build, Test, Ship, Monitor'),
+        o('Scan, Patch, Encrypt, Backup, Audit'),
+        o('Login, Logout, Lock, Unlock, Reset'),
+      ]),
+      mc('"Defense in depth" means:', 20, [
+        o('Layering multiple independent security controls', true),
+        o('Relying on a single strong firewall'),
+        o('Hiding servers so no one finds them'),
+        o('Encrypting data only once'),
+      ]),
+      mc('PCI DSS applies to organizations that:', 25, [
+        o('Store, process, or transmit payment card data', true),
+        o('Only handle public marketing content'),
+        o('Have no internet connection'),
+        o('Exclusively use open-source software'),
+      ]),
+      mc('ISO/IEC 27001 is:', 20, [
+        o('A standard for an Information Security Management System (ISMS)', true),
+        o('A type of firewall hardware'),
+        o('An encryption algorithm'),
+        o('A programming language'),
+      ]),
+      tf('The principle of least privilege is a foundational best practice across security frameworks.', true),
+    ],
+  },
 ];
 
 /**

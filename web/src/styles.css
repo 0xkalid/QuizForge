@@ -620,27 +620,81 @@ h2 {
   margin-bottom: 14px;
 }
 
+.q-head {
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.q-head .pill {
+  white-space: nowrap;
+}
+
+.q-num {
+  display: inline-grid;
+  place-items: center;
+  width: 1.5em;
+  height: 1.5em;
+  border-radius: 6px;
+  background: rgba(0, 229, 208, 0.18);
+  color: var(--neon);
+  font-weight: 800;
+}
+
+.icon-btn {
+  min-height: 42px;
+  min-width: 42px;
+  padding: 8px 12px;
+  font-size: 1.05rem;
+}
+
 .option-row {
   display: flex;
   align-items: center;
   gap: 10px;
-  margin-bottom: 8px;
+  margin-bottom: 10px;
 }
 
-.option-row input[type='text'] {
+.opt-shape {
+  flex: none;
+  width: 36px;
+  height: 36px;
+  border-radius: 9px;
+  display: grid;
+  place-items: center;
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.3);
+}
+
+.opt-input {
   flex: 1;
+  min-width: 0;
 }
 
-.correct-toggle {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  white-space: nowrap;
-  background: rgba(8, 14, 26, 0.8);
-  border: 1px solid var(--border);
-  padding: 10px 12px;
+.opt-correct,
+.opt-del {
+  flex: none;
+  width: 42px;
+  height: 42px;
   border-radius: 10px;
-  font-size: 0.9rem;
+  border: 1px solid var(--border);
+  background: rgba(8, 14, 26, 0.8);
+  color: var(--muted);
+  font-size: 1.05rem;
+  font-weight: 800;
+  display: grid;
+  place-items: center;
+  transition: all 0.15s ease;
+}
+
+.opt-correct.on {
+  background: linear-gradient(135deg, #19c37d, #0f9d63);
+  color: #04221f;
+  border-color: transparent;
+  box-shadow: 0 0 16px rgba(25, 195, 125, 0.5);
+}
+
+.opt-del:hover {
+  color: var(--danger);
+  border-color: var(--danger);
 }
 
 .footer-hint {
@@ -909,20 +963,6 @@ h2 {
     padding: 11px 6px;
     min-height: 46px;
     font-size: 0.92rem;
-  }
-
-  /* Quiz editor option rows: text input gets its own full-width line. */
-  .option-row {
-    flex-wrap: wrap;
-    gap: 8px;
-  }
-  .option-row input[type='text'] {
-    flex: 1 1 100%;
-    order: -1;
-  }
-  .correct-toggle {
-    padding: 9px 11px;
-    font-size: 0.82rem;
   }
 
   .btn.big {

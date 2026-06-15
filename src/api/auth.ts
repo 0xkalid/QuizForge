@@ -11,6 +11,9 @@ export const auth = new Hono<{ Bindings: Env }>();
 
 const COOKIE = 'qf_session';
 const TTL_SECONDS = 7 * 24 * 60 * 60; // 7 days
+// Host identity when HOST_EMAIL isn't configured. Login is password-only; this
+// is just the owner id attached to quizzes for the (single) host.
+const DEFAULT_HOST_EMAIL = 'host@quizforge.app';
 
 function cookieOpts() {
   return {
@@ -51,12 +54,11 @@ async function verifyTurnstile(
 auth.get('/config', (c) => {
   return c.json({
     enabled: !!(c.env.HOST_PASSWORD && c.env.AUTH_SECRET),
-    emailRequired: !c.env.HOST_EMAIL,
     turnstileSiteKey: c.env.TURNSTILE_SITE_KEY ?? null,
   });
 });
 
-// POST /api/auth/login  { email?, password }
+// POST /api/auth/login  { password, turnstileToken? }
 auth.post('/login', async (c) => {
   if (!c.env.HOST_PASSWORD || !c.env.AUTH_SECRET) {
     return c.json(
@@ -74,17 +76,12 @@ auth.post('/login', async (c) => {
     return c.json({ error: 'Bot check failed. Please try again.' }, 403);
   }
 
-  // A configured HOST_EMAIL fixes the identity; otherwise the host picks one.
-  const fixedEmail = c.env.HOST_EMAIL?.trim().toLowerCase();
-  const email = fixedEmail ?? (typeof body?.email === 'string' ? body.email.trim().toLowerCase() : '');
-
-  if (!email.includes('@') || email.length > 254) {
-    return c.json({ error: 'Enter a valid email to use as your host name.' }, 400);
-  }
   if (!timingSafeEqualStrings(password, c.env.HOST_PASSWORD)) {
     return c.json({ error: 'Incorrect host password.' }, 401);
   }
 
+  // Identity is fixed by config (or a default) — never supplied by the client.
+  const email = c.env.HOST_EMAIL?.trim().toLowerCase() || DEFAULT_HOST_EMAIL;
   const token = await signSession(email, c.env.AUTH_SECRET, TTL_SECONDS);
   setCookie(c, COOKIE, token, cookieOpts());
   return c.json({ email });

@@ -1,5 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { SELF } from 'cloudflare:test';
+import { SAMPLE_QUIZZES } from '../src/lib/sampleQuizzes';
 
 // End-to-end routing/auth checks against the Worker entry. No Access JWT and no
 // DEV_AUTH_BYPASS are configured in the test env, so protected routes 401 while
@@ -26,7 +27,7 @@ describe('Worker routing & auth', () => {
     const res = await SELF.fetch('https://example.com/api/auth/login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email: 'host@test.com', password: 'wrong' }),
+      body: JSON.stringify({ password: 'wrong' }),
     });
     expect(res.status).toBe(401);
   });
@@ -35,7 +36,7 @@ describe('Worker routing & auth', () => {
     const login = await SELF.fetch('https://example.com/api/auth/login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email: 'host@test.com', password: 'test-password' }),
+      body: JSON.stringify({ password: 'test-password' }),
     });
     expect(login.status).toBe(200);
     const setCookie = login.headers.get('set-cookie') ?? '';
@@ -48,14 +49,14 @@ describe('Worker routing & auth', () => {
     });
     expect(quizzes.status).toBe(200);
     const list = (await quizzes.json()) as Array<{ title: string }>;
-    // A brand-new host is auto-seeded with the sample cybersecurity quizzes.
-    expect(list.length).toBe(6);
+    // A brand-new host is auto-seeded with the full sample quiz pack.
+    expect(list.length).toBe(SAMPLE_QUIZZES.length);
     expect(list.some((q) => q.title === 'Cybersecurity Fundamentals')).toBe(true);
 
     // Idempotent: a second load does not duplicate them.
     const again = await SELF.fetch('https://example.com/api/quizzes', {
       headers: { Cookie: cookie },
     });
-    expect(((await again.json()) as unknown[]).length).toBe(6);
+    expect(((await again.json()) as unknown[]).length).toBe(SAMPLE_QUIZZES.length);
   });
 });
