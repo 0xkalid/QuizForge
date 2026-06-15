@@ -1,0 +1,31 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "quizforge",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-06-01",
+  "compatibility_flags": ["nodejs_compat"],
+  "build": {
+    "command": "npm run build:web"
+  },
+  "assets": {
+    "directory": "./web/dist",
+    "binding": "ASSETS",
+    "not_found_handling": "single-page-application"
+  },
+  "durable_objects": {
+    "bindings": [{ "name": "GAME_ROOM", "class_name": "GameRoom" }]
+  },
+  "migrations": [{ "tag": "v1", "new_sqlite_classes": ["GameRoom"] }],
+  // database_id is intentionally omitted: Cloudflare auto-provisions the D1
+  // database on first deploy (e.g. via the "Deploy to Cloudflare" button) and
+  // fills it in for that account. For an existing/manual deploy, run
+  // `wrangler d1 create quizforge` and paste the id here.
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "quizforge",
+      "migrations_dir": "migrations"
+    }
+  ],
+  "observability": { "enabled": true }
+}

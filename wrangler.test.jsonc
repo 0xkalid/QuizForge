@@ -1,0 +1,26 @@
+// Test-only Wrangler config for @cloudflare/vitest-pool-workers.
+//
+// The shipped wrangler.jsonc omits d1 database_id so Cloudflare auto-provisions
+// it on deploy (the "Deploy to Cloudflare" button). The test pool, however,
+// requires an id to parse the config, so tests use this file with a dummy id
+// (Miniflare creates an in-memory DB locally; the id value is irrelevant).
+//
+// Keep the bindings here in sync with wrangler.jsonc.
+{
+  "name": "quizforge",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-06-01",
+  "compatibility_flags": ["nodejs_compat"],
+  "durable_objects": {
+    "bindings": [{ "name": "GAME_ROOM", "class_name": "GameRoom" }]
+  },
+  "migrations": [{ "tag": "v1", "new_sqlite_classes": ["GameRoom"] }],
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "quizforge",
+      "database_id": "00000000-0000-0000-0000-000000000000",
+      "migrations_dir": "migrations"
+    }
+  ]
+}
